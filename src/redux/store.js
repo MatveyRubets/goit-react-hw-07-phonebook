@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import {
   persistStore,
   FLUSH,
@@ -8,11 +8,25 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import { contactsReducer } from './slice';
+import {
+  entities,
+  isLoading,
+  error,
+  filterReducer,
+} from './contacts/contactsReducer';
+
+const rootReducer = {
+  contacts: combineReducers({
+    entities,
+    filter: filterReducer,
+    isLoading,
+  }),
+  error,
+};
 
 export const store = configureStore({
   reducer: {
-    contacts: contactsReducer,
+    contacts: rootReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
