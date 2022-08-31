@@ -1,3 +1,3 @@
 export const getContacts = state => state.contacts.entities;
-export const getFilteredContatcs = state => state.contacts.filter;
-export const isLoading = state => state.contacts.isLoading;
+export const getFilteredContacts = state => state.contacts.filter;
+export const IsLoading = state => state.contacts.isLoading;

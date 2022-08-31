@@ -1,26 +1,39 @@
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { getFilteredContacts, getContacts } from 'redux/selectors';
 import ContactItem from './ContactItem/ContactItem';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { contactsOperations, contactsSelectors } from 'redux/contacts';
+import Loader from 'components/Loader/Loader';
 
 const ContactList = () => {
-  const contacts = useSelector(getContacts);
-  const value = useSelector(getFilteredContacts);
+  const contacts = useSelector(contactsSelectors.getContacts);
+  const value = useSelector(contactsSelectors.getFilteredContacts);
+  const loading = useSelector(contactsSelectors.IsLoading);
+  const dispatch = useDispatch();
 
-  const addFilteredContacts = () => {
+  useEffect(() => {
+    dispatch(contactsOperations.fetchContacts());
+  }, [dispatch]);
+
+  const getFilteredNames = () => {
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(value)
     );
   };
 
-  let filteredContacts = value === '' ? contacts : addFilteredContacts();
+  let searchContact = value === '' ? contacts : getFilteredNames();
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
-    <ul>
-      {filteredContacts.map(({ id, name, number }) => {
-        return <ContactItem key={id} id={id} name={name} number={number} />;
-      })}
-    </ul>
+    <div>
+      {contacts.length > 0 &&
+        searchContact.map(({ id, phone, name }) => {
+          return <ContactItem key={id} id={id} name={name} number={phone} />;
+        })}
+    </div>
   );
 };
 

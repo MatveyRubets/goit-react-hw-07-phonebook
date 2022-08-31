@@ -1,16 +1,22 @@
-import PropTypes from 'prop-types';
-import { removeContact } from 'redux/slice';
+import { contactsOperations } from 'redux/contacts';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const ContactItem = ({ id, name, number }) => {
+const ContactItem = ({ id, number, name }) => {
   const dispatch = useDispatch();
 
+  const removeClick = () => {
+    dispatch(contactsOperations.removeContacts(id));
+  };
+
   return (
-    <li>
+    <li key={id}>
       {name}: {number}
-      <button type="button" onClick={() => dispatch(removeContact(id))}>
-        Delete
-      </button>
+      <div>
+        <button type="button" onClick={removeClick}>
+          Delete
+        </button>
+      </div>
     </li>
   );
 };

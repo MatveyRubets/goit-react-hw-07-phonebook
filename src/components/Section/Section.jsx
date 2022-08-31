@@ -1,4 +1,4 @@
-const ContactItem = ({ title, children }) => {
+const Section = ({ title, children }) => {
   return (
     <div>
       <h1>{title}</h1>
@@ -7,4 +7,4 @@ const ContactItem = ({ title, children }) => {
   );
 };
 
-export default ContactItem;
+export default Section;

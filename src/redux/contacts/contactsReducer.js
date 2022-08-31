@@ -1,37 +1,37 @@
 import { createReducer } from '@reduxjs/toolkit';
 import {
   fetchContacts,
-  postContacts,
-  deleteContacts,
+  addContacts,
+  removeContacts,
 } from './contactsOperations';
-import { filter } from './contactsActions';
+import { filter } from 'redux/contacts/contactsActions';
 
 const entities = createReducer([], {
   [fetchContacts.fulfilled]: (_, action) => action.payload,
-  [postContacts.fulfilled]: (state, action) => [action.payload, ...state],
-  [deleteContacts.fulfilled]: (state, action) =>
+  [addContacts.fulfilled]: (state, action) => [action.payload, ...state],
+  [removeContacts.fulfilled]: (state, action) =>
     state.filter(item => item.id !== action.payload.id),
 });
 
 const isLoading = createReducer(false, {
-  [fetchContacts.pending]: true,
-  [fetchContacts.fulfilled]: false,
-  [fetchContacts.rejected]: false,
-  [postContacts.pending]: true,
-  [postContacts.fulfilled]: false,
-  [postContacts.rejected]: false,
-  [deleteContacts.pending]: true,
-  [deleteContacts.fulfilled]: false,
-  [deleteContacts.rejected]: false,
+  [fetchContacts.pending]: () => true,
+  [fetchContacts.fulfilled]: () => false,
+  [fetchContacts.rejected]: () => false,
+  [addContacts.pending]: () => true,
+  [addContacts.fulfilled]: () => false,
+  [addContacts.rejected]: () => false,
+  [removeContacts.pending]: () => true,
+  [removeContacts.fulfilled]: () => false,
+  [removeContacts.rejected]: () => false,
 });
 
 const error = createReducer(null, {
   [fetchContacts.rejected]: (_, action) => action.payload,
   [fetchContacts.pending]: () => null,
-  [postContacts.rejected]: (_, action) => action.payload,
-  [postContacts.pending]: () => null,
-  [deleteContacts.rejected]: (_, action) => action.payload,
-  [deleteContacts.pending]: () => null,
+  [addContacts.rejected]: (_, action) => action.payload,
+  [addContacts.pending]: () => null,
+  [removeContacts.rejected]: (_, action) => action.payload,
+  [removeContacts.pending]: () => null,
 });
 
 const filterReducer = createReducer('', {

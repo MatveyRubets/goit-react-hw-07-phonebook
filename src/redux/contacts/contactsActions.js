@@ -1,3 +1,3 @@
-const { createAction } = require('@reduxjs/toolkit');
+import { createAction } from '@reduxjs/toolkit';
 
 export const filter = createAction('items/filter');

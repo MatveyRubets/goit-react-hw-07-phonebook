@@ -1,19 +1,19 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import {
-  persistStore,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist';
-import {
+  filterReducer,
   entities,
   isLoading,
   error,
-  filterReducer,
 } from './contacts/contactsReducer';
+import {
+  persistStore,
+  REGISTER,
+  REHYDRATE,
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+} from 'redux-persist';
 
 const rootReducer = {
   contacts: combineReducers({
@@ -25,15 +25,14 @@ const rootReducer = {
 };
 
 export const store = configureStore({
-  reducer: {
-    contacts: rootReducer,
-  },
+  reducer: rootReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 export const persistor = persistStore(store);
